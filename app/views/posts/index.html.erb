@@ -1,16 +1,9 @@
-<p style="color: green"><%= notice %></p>
+<h1>TechForum</h1>
+<%= link_to "New Post", new_post_path %>
 
-<% content_for :title, "Posts" %>
-
-<h1>Posts</h1>
-
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New post", new_post_path %>
+<% @posts.each do |post| %>
+  <div>
+    <h3><%= link_to post.title, post %></h3>
+    <p><%= post.category %> · <%= post.upvotes_count %> upvotes · tags: <%= post.tags.map(&:name).join(", ") %></p>
+  </div>
+<% end %>

@@ -1,10 +1,19 @@
-<p style="color: green"><%= notice %></p>
+<h1><%= @post.title %></h1>
+<p><%= @post.body %></p>
+<p>Category: <%= @post.category %> | Upvotes: <%= @post.post_upvotes.count %></p>
 
-<%= render @post %>
+<form action="/posts/<%= @post.id %>/upvote" method="post">
+  <input type="text" name="username" placeholder="your username">
+  <button type="submit">Upvote</button>
+</form>
 
-<div>
-  <%= link_to "Edit this post", edit_post_path(@post) %> |
-  <%= link_to "Back to posts", posts_path %>
+<h3>Comments</h3>
+<% @comments.each do |comment| %>
+  <p><strong><%= comment.user.username %>:</strong> <%= comment.body %></p>
+<% end %>
 
-  <%= button_to "Destroy this post", @post, method: :delete %>
-</div>
+<form action="/posts/<%= @post.id %>/comments" method="post">
+  <input type="text" name="comment[username]" placeholder="your username">
+  <textarea name="comment[body]" placeholder="comment"></textarea>
+  <button type="submit">Comment</button>
+</form>

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_forgery_protection only: :create
   before_action :set_user, only: %i[ show edit update destroy ]
 
   # GET /users
@@ -21,10 +22,10 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
+    @user = User.new(user_params.to_h)
 
     if @user.save
-      redirect_to @user, notice: "User was successfully created."
+      redirect_to users_path
     else
       render :new, status: :unprocessable_content
     end
@@ -53,6 +54,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.fetch(:user, {})
+      params.fetch(:user, {}).permit(:username, :email)
     end
 end
