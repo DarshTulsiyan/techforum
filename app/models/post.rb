@@ -7,4 +7,8 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   def upvotes_count = post_upvotes.count
+
+  def upvote!(user)
+    post_upvotes.create!(user: user)
+  end
 end
