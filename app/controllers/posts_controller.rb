@@ -24,6 +24,11 @@ class PostsController < ApplicationController
 
     @post = Post.new(post_attributes)
     @post.user = user
+    if @post.title.nil? || @post.body.nil?
+      @post.errors.add(:base, "Title and body cannot be blank")
+      render :new, status: :unprocessable_entity and return
+    end
+
     @post.tags = Tag.find_or_create_list(params[:post][:tags]) if params[:post][:tags].present?
 
     if @post.save
