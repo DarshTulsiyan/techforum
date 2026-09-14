@@ -6,9 +6,6 @@ class Post < ApplicationRecord
   has_many :post_upvotes, dependent: :destroy
   has_many :comments, dependent: :destroy
 
-  validates :title, presence: true
-  validates :body, presence: true
-
   def upvotes_count = post_upvotes.count
 
   def upvote!(user)
