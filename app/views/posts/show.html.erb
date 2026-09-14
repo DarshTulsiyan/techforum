@@ -1,6 +1,6 @@
 <h1><%= @post.title %></h1>
 <p><%= @post.body %></p>
-<p>Category: <%= @post.category %> | Upvotes: <%= @post.post_upvotes.count %></p>
+<p>Category: <%= @post.category %> | Upvotes: <%= @post.upvotes_count %></p>
 
 <form action="/posts/<%= @post.id %>/upvote" method="post">
   <input type="text" name="username" placeholder="your username">
@@ -9,7 +9,20 @@
 
 <h3>Comments</h3>
 <% @comments.each do |comment| %>
-  <p><strong><%= comment.user.username %>:</strong> <%= comment.body %></p>
+  <div>
+    <p><strong><%= comment.user.username %>:</strong> <%= comment.body %></p>
+
+    <% comment.replies.each do |reply| %>
+      <p><strong><%= reply.user.username %> replied:</strong> <%= reply.body %></p>
+    <% end %>
+
+    <form action="<%= post_comments_path(@post) %>" method="post">
+      <input type="hidden" name="comment[parent_id]" value="<%= comment.id %>">
+      <input type="text" name="comment[username]" placeholder="your username">
+      <textarea name="comment[body]" placeholder="reply"></textarea>
+      <button type="submit">Reply</button>
+    </form>
+  </div>
 <% end %>
 
 <form action="/posts/<%= @post.id %>/comments" method="post">

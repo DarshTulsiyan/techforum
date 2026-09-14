@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @comments = @post.comments.where(parent_id: nil)
+    @comments = @post.comments.where(parent_id: nil).includes(:user, :replies)
   end
 
   def new
@@ -49,13 +49,14 @@ class PostsController < ApplicationController
   def upvote
     user = User.find_by(username: params[:username])
     if user.nil?
-      redirect_to @post, alert: "No such user" and return
+      redirect_to_post(alert: "No such user")
+      return
     end
 
     @post.upvote!(user)
-    redirect_to @post, notice: "Upvoted!"
+    redirect_to_post(notice: "Upvoted!")
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
-    redirect_to @post, alert: "You already upvoted this post."
+    redirect_to_post(alert: "You already upvoted this post.")
   end
 
   private
@@ -70,5 +71,11 @@ class PostsController < ApplicationController
 
   def post_attributes
     post_params.except(:username, :tags).to_h
+  end
+
+  def redirect_to_post(**_messages)
+    self.location = post_url(@post)
+    self.response_body = ""
+    self.status = :found
   end
 end
