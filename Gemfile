@@ -21,3 +21,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "rspec-rails"
 end
+
+group :test do
+  gem "simplecov", require: false
+end
