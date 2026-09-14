@@ -28,6 +28,41 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should create a comment on a post" do
+    assert_difference("Comment.count") do
+      post post_comments_url(@post), params: {
+        comment: { username: users(:two).username, body: "Useful post" }
+      }
+    end
+
+    assert_redirected_to post_url(@post)
+    assert_equal @post, Comment.order(:created_at).last.post
+  end
+
+  test "should create a reply to a comment" do
+    parent = comments(:one)
+
+    assert_difference("Comment.count") do
+      post post_comments_url(@post), params: {
+        comment: { username: users(:two).username, body: "I agree", parent_id: parent.id }
+      }
+    end
+
+    assert_equal parent, Comment.order(:created_at).last.parent
+  end
+
+  test "should upvote a post once per user" do
+    assert_difference("PostUpvote.count") do
+      post upvote_post_url(@post), params: { username: users(:two).username }
+    end
+
+    assert_no_difference("PostUpvote.count") do
+      post upvote_post_url(@post), params: { username: users(:two).username }
+    end
+
+    assert_redirected_to post_url(@post)
+  end
+
   test "should get edit" do
     get edit_post_url(@post)
     assert_response :success

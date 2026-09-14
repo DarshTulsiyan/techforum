@@ -4,10 +4,8 @@ one:
   body: MyText
   post: one
   user: one
-  parent_id: 1
 
 two:
   body: MyText
   post: two
   user: two
-  parent_id: 1
