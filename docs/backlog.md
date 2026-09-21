@@ -110,3 +110,12 @@ As a user, I want to see related posts based on shared tags so that I can discov
 **Status: To Do**
 
 As a user, I want to see popular posts ranked by upvotes so that I can quickly find useful or highly-rated content.
+
+12. User Management - Ability to Edit and Delete Users.
+
+**Status: To Do**
+
+12. Post Management - Ability to Edit and Delete Posts.
+
+**Status: To Do**
+
