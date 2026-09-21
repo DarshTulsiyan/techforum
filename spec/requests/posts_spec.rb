@@ -65,4 +65,56 @@ RSpec.describe "Posts", type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         end
   end
+
+
+describe "PATCH /posts/:id" do
+  it "updates the post" do
+    user = User.create!(
+      username: "darsh",
+      email: "darsh@example.com"
+    )
+
+    post = Post.create!(
+      title: "Old Title",
+      body: "Old Body",
+      category: "Ruby",
+      user: user
+    )
+
+    patch post_path(post), params: {
+      post: {
+        title: "Updated Title",
+        body: "Updated Body"
+      }
+    }
+
+    post.reload
+
+    expect(post.title).to eq("Updated Title")
+    expect(post.body).to eq("Updated Body")
+    expect(response).to redirect_to(post_path(post))
+  end
+end
+
+describe "DELETE /posts/:id" do
+  it "deletes the post" do
+    user = User.create!(
+      username: "darsh",
+      email: "darsh@example.com"
+    )
+
+    post = Post.create!(
+      title: "Test Post",
+      body: "Test Body",
+      category: "Ruby",
+      user: user
+    )
+
+    expect {
+      delete post_path(post)
+    }.to change(Post, :count).by(-1)
+
+    expect(response).to redirect_to(posts_path)
+  end
+end
 end

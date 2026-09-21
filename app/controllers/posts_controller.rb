@@ -10,6 +10,9 @@ class PostsController < ApplicationController
     @comments = @post.comments.where(parent_id: nil).includes(:user, :replies)
   end
 
+  def edit
+  end
+
   def new
     @post = Post.new
   end
