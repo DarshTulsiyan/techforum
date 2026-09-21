@@ -1,12 +1,33 @@
-<% content_for :title, "Editing user" %>
+<h1>Edit User</h1>
 
-<h1>Editing user</h1>
+<% if @user.errors.any? %>
+  <div>
+    <h3>Unable to update user:</h3>
 
-<%= render "form", user: @user %>
+    <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-<br>
+<%= form_with model: @user do |form| %>
 
-<div>
-  <%= link_to "Show this user", @user %> |
-  <%= link_to "Back to users", users_path %>
-</div>
+  <div>
+    <%= form.label :username %>
+    <%= form.text_field :username %>
+  </div>
+
+  <div>
+    <%= form.label :email %>
+    <%= form.email_field :email %>
+  </div>
+
+  <div>
+    <%= form.submit "Update User" %>
+  </div>
+
+<% end %>
+
+<%= link_to "Back to Users", users_path %>

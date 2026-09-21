@@ -25,3 +25,5 @@ end
 group :test do
   gem "simplecov", require: false
 end
+
+gem "json", "2.21.2"
