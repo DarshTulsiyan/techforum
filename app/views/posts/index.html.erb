@@ -1,6 +1,23 @@
 <h1>TechForum</h1>
 <%= link_to "New Post", new_post_path %>
+<br><br>
 
+<%= form_with url: posts_path, method: :get do |form| %>
+  <%= form.text_field :search,
+                      value: params[:search],
+                      placeholder: "Search posts..." %>
+
+  <%= form.submit "Search" %>
+<% end %>
+
+<% if params[:search].present? %>
+  <%= link_to "Clear Search", posts_path %>
+<% end %>
+
+<br>
+
+
+<% if @posts.any? %>
 <% @posts.each do |post| %>
   <div>
     <h3><%= link_to post.title, post %></h3>
@@ -12,4 +29,10 @@
                 post_path(post),
                 method: :delete,
                 form: { onsubmit: "return confirm('Are you sure you want to delete this post?');" } %>
+<% end %>
+
+<% else %>
+
+  <p>No matching posts found.</p>
+
 <% end %>
