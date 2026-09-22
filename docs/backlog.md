@@ -113,9 +113,9 @@ As a user, I want to see popular posts ranked by upvotes so that I can quickly f
 
 12. User Management - Ability to Edit and Delete Users.
 
-**Status: To Do**
+**Status: Done**
 
 12. Post Management - Ability to Edit and Delete Posts.
 
-**Status: To Do**
+**Status: Done**
 

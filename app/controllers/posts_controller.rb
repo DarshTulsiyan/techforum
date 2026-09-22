@@ -4,6 +4,15 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.all.order(created_at: :desc)
+
+    if params[:search].present?
+    search = "%#{params[:search]}%"
+
+    @posts = @posts.where(
+      "title LIKE :search OR body LIKE :search OR category LIKE :search",
+      search: search
+    )
+  end
   end
 
   def show
