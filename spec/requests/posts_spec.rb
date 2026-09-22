@@ -117,4 +117,66 @@ describe "DELETE /posts/:id" do
     expect(response).to redirect_to(posts_path)
   end
 end
+
+describe "GET /posts search" do
+  let!(:user) do
+    User.create!(
+      username: "darsh",
+      email: "darsh@example.com"
+    )
+  end
+
+  let!(:ruby_post) do
+    Post.create!(
+      title: "Ruby Help",
+      body: "How do Rails models work?",
+      category: "Programming",
+      user: user
+    )
+  end
+
+  let!(:python_post) do
+    Post.create!(
+      title: "Python Question",
+      body: "How does machine learning work?",
+      category: "AI",
+      user: user
+    )
+  end
+
+  it "shows all posts when browsing without a search" do
+    get posts_path
+
+    expect(response).to have_http_status(:success)
+    expect(response.body).to include("Ruby Help")
+    expect(response.body).to include("Python Question")
+  end
+
+  it "finds a post using a keyword" do
+    get posts_path, params: { search: "Ruby" }
+
+    expect(response).to have_http_status(:success)
+    expect(response.body).to include("Ruby Help")
+    expect(response.body).not_to include("Python Question")
+  end
+
+  it "finds a post using a tag" do
+    tag = Tag.create!(name: "Rails")
+    ruby_post.tags << tag
+
+    get posts_path, params: { search: "Rails" }
+
+    expect(response).to have_http_status(:success)
+    expect(response.body).to include("Ruby Help")
+    expect(response.body).not_to include("Python Question")
+  end
+
+  it "shows a message when there are no matches" do
+    get posts_path, params: { search: "JavaScript" }
+
+    expect(response).to have_http_status(:success)
+    expect(response.body).to include("No matching posts found.")
+  end
+end
+
 end
