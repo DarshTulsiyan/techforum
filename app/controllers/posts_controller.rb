@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy, :upvote]
 
   def index
-    @posts = Post.all.order(created_at: :desc)
+    @posts = Post.all
 
     if params[:search].present?
     search = "%#{params[:search]}%"
@@ -13,6 +13,14 @@ class PostsController < ApplicationController
       search: search
     )
   end
+    if params[:sort] == "popular"
+      @posts = @posts
+      .left_joins(:post_upvotes)
+      .group("posts.id")
+      .order(Arel.sql("COUNT(post_upvotes.id) DESC"))
+    else
+      @posts = @posts.order(created_at: :desc)
+    end
   end
 
   def show
