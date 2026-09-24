@@ -1,77 +1,78 @@
-describe "GET /posts/:id" do
-  let!(:user) do
-    User.create!(
-      username: "darsh",
-      email: "darsh@example.com"
-    )
-  end
+require "rails_helper"
 
-  let!(:ruby_tag) { Tag.create!(name: "Ruby") }
-  let!(:rails_tag) { Tag.create!(name: "Rails") }
+RSpec.describe "Posts", type: :request do
+  describe "GET /posts/:id" do
+    let!(:user) do
+      User.create!(
+        username: "darsh",
+        email: "darsh@example.com"
+      )
+    end
 
-  let!(:post) do
-    Post.create!(
-      title: "Ruby Question",
-      body: "How does Ruby work?",
-      category: "Ruby",
-      user: user
-    )
-  end
+    let!(:ruby_tag) { Tag.create!(name: "Ruby") }
+    let!(:rails_tag) { Tag.create!(name: "Rails") }
 
-  it "shows related posts based on shared tags" do
-    post.tags << [ruby_tag, rails_tag]
+    let!(:post) do
+      Post.create!(
+        title: "Ruby Question",
+        body: "How does Ruby work?",
+        category: "Ruby",
+        user: user
+      )
+    end
 
-    related_post = Post.create!(
-      title: "Rails Associations",
-      body: "How do Rails associations work?",
-      category: "Rails",
-      user: user
-    )
+    it "shows related posts based on shared tags" do
+      post.tags << [ruby_tag, rails_tag]
 
-    related_post.tags << rails_tag
+      related_post = Post.create!(
+        title: "Rails Associations",
+        body: "How do Rails associations work?",
+        category: "Rails",
+        user: user
+      )
 
-    get post_path(post)
+      related_post.tags << rails_tag
 
-    expect(response).to have_http_status(:success)
-    expect(response.body).to include("Related Posts")
-    expect(response.body).to include("Rails Associations")
-  end
+      get post_path(post)
 
-  it "does not show posts without shared tags as related posts" do
-    post.tags << ruby_tag
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("Related Posts")
+      expect(response.body).to include("Rails Associations")
+    end
 
-    unrelated_post = Post.create!(
-      title: "Python Question",
-      body: "How does Python work?",
-      category: "Python",
-      user: user
-    )
+    it "does not show posts without shared tags as related posts" do
+      post.tags << ruby_tag
 
-    python_tag = Tag.create!(name: "Python")
-    unrelated_post.tags << python_tag
+      unrelated_post = Post.create!(
+        title: "Python Question",
+        body: "How does Python work?",
+        category: "Python",
+        user: user
+      )
 
-    get post_path(post)
+      python_tag = Tag.create!(name: "Python")
+      unrelated_post.tags << python_tag
 
-    expect(response).to have_http_status(:success)
-    expect(response.body).not_to include("Python Question")
-  end
+      get post_path(post)
 
-  it "does not show the current post as a related post" do
-    post.tags << ruby_tag
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include("Python Question")
+    end
 
-    get post_path(post)
+    it "does not show the current post as a related post" do
+      post.tags << ruby_tag
 
-    expect(response).to have_http_status(:success)
+      get post_path(post)
 
-    # The title can appear once as the main post heading,
-    # but the related-post section should not contain it.
-    expect(response.body.scan("Ruby Question").length).to eq(1)
-  end
+      expect(response).to have_http_status(:success)
+      expect(response.body.scan("Ruby Question").length).to eq(1)
+    end
 
-  it "does not show the related posts section when there are no matches" do
-    get post_path(post)
+    it "does not show the related posts section when there are no matches" do
+      get post_path(post)
 
-    expect(response).to have_http_status(:success)
-    expect(response.body).not_to include("Related Posts")
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include("Related Posts")
+    end
   end
 end
