@@ -15,9 +15,10 @@ class PostsController < ApplicationController
   end
   end
 
-  def show
-    @comments = @post.comments.where(parent_id: nil).includes(:user, :replies)
-  end
+def show
+  @comments = @post.comments.where(parent_id: nil).includes(:user, :replies)
+  @related_posts = @post.related_posts
+end
 
   def edit
   end

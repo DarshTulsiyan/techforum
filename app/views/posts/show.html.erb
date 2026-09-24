@@ -31,4 +31,20 @@
   <button type="submit">Comment</button>
 </form>
 
+<% if @related_posts.any? %>
+  <h3>Related Posts</h3>
+
+  <% @related_posts.each do |related_post| %>
+    <div>
+      <h4><%= link_to related_post.title, related_post %></h4>
+
+      <p>
+        <%= related_post.category %> ·
+        <%= related_post.upvotes_count %> upvotes ·
+        tags: <%= related_post.tags.map(&:name).join(", ") %>
+      </p>
+    </div>
+  <% end %>
+<% end %>
+
 <%= link_to "Back to Posts", posts_path %>

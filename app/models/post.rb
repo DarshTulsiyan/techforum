@@ -14,4 +14,14 @@ class Post < ApplicationRecord
   def upvote!(user)
     post_upvotes.create!(user: user)
   end
+
+  def related_posts
+    Post
+      .joins(:tags)
+      .where(tags: { id: tags.select(:id) })
+      .where.not(id: id)
+      .group("posts.id")
+      .order(Arel.sql("COUNT(DISTINCT tags.id) DESC"))
+      .order(created_at: :desc)
+  end
 end
