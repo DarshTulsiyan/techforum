@@ -7,6 +7,15 @@
                       value: params[:search],
                       placeholder: "Search posts..." %>
 
+  <%= form.select :sort,
+                  options_for_select(
+                    [
+                      ["Newest", "newest"],
+                      ["Most Upvoted", "popular"]
+                    ],
+                    params[:sort]
+                  ) %>
+                  
   <%= form.submit "Search" %>
 <% end %>
 
