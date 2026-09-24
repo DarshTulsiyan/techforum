@@ -1,47 +1,136 @@
-<h1>TechForum</h1>
-<%= link_to "New Post", new_post_path %>
-<br><br>
+<div class="page-header">
+  <div>
+    <h1>Discussions</h1>
+    <p class="page-subtitle">
+      Explore discussions, share ideas, and connect with the community.
+    </p>
+  </div>
 
-<%= form_with url: posts_path, method: :get do |form| %>
-  <%= form.text_field :search,
-                      value: params[:search],
-                      placeholder: "Search posts..." %>
+  <%= link_to "＋ New Post", new_post_path, class: "button button-primary" %>
+</div>
 
-  <%= form.select :sort,
-                  options_for_select(
-                    [
-                      ["Newest", "newest"],
-                      ["Most Upvoted", "popular"]
-                    ],
-                    params[:sort]
-                  ) %>
-                  
-  <%= form.submit "Search" %>
-<% end %>
+<div class="search-card">
+  <%= form_with url: posts_path, method: :get, class: "search-form" do |form| %>
 
-<% if params[:search].present? %>
-  <%= link_to "Clear Search", posts_path %>
-<% end %>
+    <div class="search-input-wrapper">
+      <%= form.text_field :search,
+                          value: params[:search],
+                          placeholder: "Search discussions..." %>
+    </div>
 
-<br>
+    <%= form.select :sort,
+                    options_for_select(
+                      [
+                        ["Newest", "newest"],
+                        ["Most Upvoted", "popular"]
+                      ],
+                      params[:sort]
+                    ) %>
 
+    <%= form.submit "Search", class: "button button-primary" %>
+
+    <% if params[:search].present? %>
+      <%= link_to "Clear", posts_path, class: "button button-secondary" %>
+    <% end %>
+
+  <% end %>
+</div>
 
 <% if @posts.any? %>
-<% @posts.each do |post| %>
-  <div>
-    <h3><%= link_to post.title, post %></h3>
-    <p><%= post.category %> · <%= post.upvotes_count %> upvotes · tags: <%= post.tags.map(&:name).join(", ") %></p>
-  </div>
-  <%= link_to "Edit", edit_post_path(post) %>
 
-  <%= button_to "Delete",
-                post_path(post),
-                method: :delete,
-                form: { onsubmit: "return confirm('Are you sure you want to delete this post?');" } %>
-<% end %>
+  <div class="post-list">
+
+    <% @posts.each do |post| %>
+
+      <article class="post-card">
+
+        <div class="post-card-content">
+
+          <div class="post-category">
+            <%= post.category %>
+          </div>
+
+          <h2 class="post-title">
+            <%= link_to post.title, post %>
+          </h2>
+
+          <% if post.tags.any? %>
+            <div class="tag-list">
+              <% post.tags.each do |tag| %>
+                <span class="tag">
+                  <%= tag.name %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+
+          <div class="post-meta">
+            <span>
+              ▲ <%= post.upvotes_count %> upvotes
+            </span>
+
+            <span>•</span>
+
+            <span>
+              <%= post.tags.count %> tags
+            </span>
+          </div>
+
+        </div>
+
+        <div class="post-actions">
+
+          <%= link_to "View Discussion →",
+                      post,
+                      class: "post-view-link" %>
+
+          <div class="post-admin-actions">
+            <%= link_to "Edit",
+                        edit_post_path(post),
+                        class: "edit-link" %>
+
+            <%= button_to "Delete",
+                          post_path(post),
+                          method: :delete,
+                          class: "delete-link",
+                          form: {
+                            onsubmit: "return confirm('Are you sure you want to delete this post?');"
+                          } %>
+          </div>
+
+        </div>
+
+      </article>
+
+    <% end %>
+
+  </div>
 
 <% else %>
 
-  <p>No matching posts found.</p>
+  <div class="empty-state">
+
+    <div class="empty-state-icon">💬</div>
+
+    <h2>No discussions found</h2>
+
+    <% if params[:search].present? %>
+      <p>
+        We couldn't find any discussions matching
+        "<strong><%= params[:search] %></strong>".
+      </p>
+
+      <%= link_to "Clear Search",
+                  posts_path,
+                  class: "button button-secondary" %>
+    <% else %>
+      <p>Be the first to start a discussion.</p>
+
+      <%= link_to "Create a Post",
+                  new_post_path,
+                  class: "button button-primary" %>
+    <% end %>
+
+  </div>
 
 <% end %>

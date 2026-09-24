@@ -1,50 +1,214 @@
-<h1><%= @post.title %></h1>
-<p><%= @post.body %></p>
-<p>Category: <%= @post.category %> | Upvotes: <%= @post.upvotes_count %></p>
+<div class="post-detail">
 
-<form action="/posts/<%= @post.id %>/upvote" method="post">
-  <input type="text" name="username" placeholder="your username">
-  <button type="submit">Upvote</button>
-</form>
+  <div class="post-detail-card">
 
-<h3>Comments</h3>
-<% @comments.each do |comment| %>
-  <div>
-    <p><strong><%= comment.user.username %>:</strong> <%= comment.body %></p>
+    <div class="post-detail-header">
+      <span class="post-category"><%= @post.category %></span>
 
-    <% comment.replies.each do |reply| %>
-      <p><strong><%= reply.user.username %> replied:</strong> <%= reply.body %></p>
+      <h1><%= @post.title %></h1>
+
+      <div class="post-meta">
+        <span><%= @post.upvotes_count %> upvotes</span>
+
+        <% if @post.tags.any? %>
+          <span>·</span>
+          <span><%= @post.tags.map(&:name).join(", ") %></span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="post-body">
+      <%= simple_format(@post.body) %>
+    </div>
+
+    <div class="upvote-section">
+      <form action="/posts/<%= @post.id %>/upvote" method="post">
+        <input
+          type="text"
+          name="username"
+          placeholder="Enter your username"
+        >
+
+        <button type="submit" class="button button-primary">
+          Upvote
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+
+  <!-- Comments -->
+
+  <div class="comments-section">
+
+    <h2>Comments</h2>
+
+    <% if @comments.any? %>
+
+      <div class="comments-list">
+
+        <% @comments.each do |comment| %>
+
+          <div class="comment-card">
+
+            <div class="comment-content">
+
+              <div class="comment-meta">
+                <strong><%= comment.user.username %></strong>
+                <span>commented</span>
+              </div>
+
+              <p><%= comment.body %></p>
+
+
+              <!-- Replies -->
+
+              <% if comment.replies.any? %>
+
+                <div class="replies">
+
+                  <% comment.replies.each do |reply| %>
+
+                    <div class="reply-card">
+
+                      <div>
+                        <div class="comment-meta">
+                          <strong><%= reply.user.username %></strong>
+                          <span>replied</span>
+                        </div>
+
+                        <p><%= reply.body %></p>
+                      </div>
+
+                    </div>
+
+                  <% end %>
+
+                </div>
+
+              <% end %>
+
+
+              <!-- Reply form -->
+
+              <div class="reply-form">
+
+                <form action="<%= post_comments_path(@post) %>" method="post">
+
+                  <input
+                    type="hidden"
+                    name="comment[parent_id]"
+                    value="<%= comment.id %>"
+                  >
+
+                  <input
+                    type="text"
+                    name="comment[username]"
+                    placeholder="Your username"
+                  >
+
+                  <textarea
+                    name="comment[body]"
+                    placeholder="Write a reply..."
+                  ></textarea>
+
+                  <button type="submit" class="button button-secondary">
+                    Reply
+                  </button>
+
+                </form>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        <% end %>
+
+      </div>
+
+    <% else %>
+
+      <div class="empty-state">
+        <p>No comments yet. Start the conversation.</p>
+      </div>
+
     <% end %>
 
-    <form action="<%= post_comments_path(@post) %>" method="post">
-      <input type="hidden" name="comment[parent_id]" value="<%= comment.id %>">
-      <input type="text" name="comment[username]" placeholder="your username">
-      <textarea name="comment[body]" placeholder="reply"></textarea>
-      <button type="submit">Reply</button>
-    </form>
-  </div>
-<% end %>
 
-<form action="/posts/<%= @post.id %>/comments" method="post">
-  <input type="text" name="comment[username]" placeholder="your username">
-  <textarea name="comment[body]" placeholder="comment"></textarea>
-  <button type="submit">Comment</button>
-</form>
+    <!-- New comment -->
 
-<% if @related_posts.any? %>
-  <h3>Related Posts</h3>
+    <div class="comment-form">
 
-  <% @related_posts.each do |related_post| %>
-    <div>
-      <h4><%= link_to related_post.title, related_post %></h4>
+      <h3>Join the discussion</h3>
 
-      <p>
-        <%= related_post.category %> ·
-        <%= related_post.upvotes_count %> upvotes ·
-        tags: <%= related_post.tags.map(&:name).join(", ") %>
-      </p>
+      <form action="/posts/<%= @post.id %>/comments" method="post">
+
+        <input
+          type="text"
+          name="comment[username]"
+          placeholder="Your username"
+        >
+
+        <textarea
+          name="comment[body]"
+          placeholder="Write a comment..."
+        ></textarea>
+
+        <button type="submit" class="button button-primary">
+          Comment
+        </button>
+
+      </form>
+
     </div>
-  <% end %>
-<% end %>
 
-<%= link_to "Back to Posts", posts_path %>
+  </div>
+
+
+  <!-- Related posts -->
+
+  <% if @related_posts.any? %>
+
+    <div class="related-section">
+
+      <div class="section-heading">
+        <h2>Related Posts</h2>
+      </div>
+
+      <div class="related-posts">
+
+        <% @related_posts.each do |related_post| %>
+
+          <div class="related-post">
+
+            <h3>
+              <%= link_to related_post.title, related_post %>
+            </h3>
+
+            <p>
+              <%= related_post.category %>
+              ·
+              <%= related_post.upvotes_count %> upvotes
+              ·
+              <%= related_post.tags.map(&:name).join(", ") %>
+            </p>
+
+          </div>
+
+        <% end %>
+
+      </div>
+
+    </div>
+
+  <% end %>
+
+
+  <div class="back-link">
+    <%= link_to "← Back to Discussions", posts_path %>
+  </div>
+
+</div>
