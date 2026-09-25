@@ -1,7 +1,11 @@
-<form action="/users" method="post">
+<%= form_with(model: user) do |form| %>
+
   <% if user.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <div class="form-errors">
+      <h2>
+        <%= pluralize(user.errors.count, "error") %>
+        prohibited this user from being saved:
+      </h2>
 
       <ul>
         <% user.errors.each do |error| %>
@@ -11,7 +15,23 @@
     </div>
   <% end %>
 
-  <input type="text" name="user[username]" placeholder="username"><br>
-  <input type="email" name="user[email]" placeholder="email"><br>
-  <button type="submit">Create user</button>
-</form>
+  <div class="field">
+    <%= form.label :username %>
+    <%= form.text_field :username, placeholder: "username" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.email_field :email, placeholder: "email" %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit "Save User",
+                    class: "button button-primary" %>
+
+    <%= link_to "Cancel",
+                users_path,
+                class: "button button-secondary" %>
+  </div>
+
+<% end %>

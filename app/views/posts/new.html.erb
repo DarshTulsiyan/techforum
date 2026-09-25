@@ -1,15 +1,67 @@
-<h1>New Post</h1>
+<% content_for :title, "New Post" %>
 
-<% if @user_not_found %>
-  <p style="color: red">Username not found. Create a user first, then submit the post again.</p>
-<% end %>
+<div class="form-page">
 
-<form action="/posts" method="post">
-  <label>Your username</label>
-  <input type="text" name="post[username]" placeholder="your username"><br>
-  <input type="text" name="post[title]" placeholder="title"><br>
-  <textarea name="post[body]" placeholder="body"></textarea><br>
-  <input type="text" name="post[category]" placeholder="category"><br>
-  <input type="text" name="post[tags]" placeholder="tags, comma, separated"><br>
-  <button type="submit">Create</button>
-</form>
+  <h1>New Post</h1>
+  <p>Create a new discussion for the TechForum community.</p>
+
+  <% if @user_not_found %>
+    <div class="form-errors">
+      <strong>Username not found.</strong>
+      Create a user first, then submit the post again.
+    </div>
+  <% end %>
+
+  <div class="form-card">
+
+    <form action="/posts" method="post">
+
+      <div class="field">
+        <label>Your username</label>
+        <input type="text"
+               name="post[username]"
+               placeholder="your username">
+      </div>
+
+      <div class="field">
+        <label>Title</label>
+        <input type="text"
+               name="post[title]"
+               placeholder="Enter your post title">
+      </div>
+
+      <div class="field">
+        <label>Body</label>
+        <textarea name="post[body]"
+                  placeholder="Write your discussion..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Category</label>
+        <input type="text"
+               name="post[category]"
+               placeholder="e.g. Programming">
+      </div>
+
+      <div class="field">
+        <label>Tags</label>
+        <input type="text"
+               name="post[tags]"
+               placeholder="tags, comma, separated">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="button button-primary">
+          Create Post
+        </button>
+
+        <%= link_to "Cancel",
+                    posts_path,
+                    class: "button button-secondary" %>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
