@@ -1,26 +1,74 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Techforum" %></title>
+    <title><%= content_for(:title) || "TechForum" %></title>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Techforum">
+    <meta name="application-name" content="TechForum">
     <meta name="mobile-web-app-capable" content="yes">
 
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app %>
   </head>
 
   <body>
-    <%= yield %>
+    <!-- Navigation -->
+    <header class="site-header">
+      <div class="container nav-inner">
+
+        <%= link_to root_path, class: "brand" do %>
+          <span class="brand-mark">T</span>
+          <span>TechForum</span>
+        <% end %>
+
+        <nav class="nav-links">
+          <%= link_to "Home", root_path %>
+
+          <% if defined?(posts_path) %>
+            <%= link_to "Discussions", posts_path %>
+          <% end %>
+
+          <% if defined?(users_path) %>
+            <%= link_to "Users", users_path %>
+          <% end %>
+        </nav>
+
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <div class="container">
+
+        <% if notice.present? %>
+          <div class="flash flash-success">
+            <%= notice %>
+          </div>
+        <% end %>
+
+        <% if alert.present? %>
+          <div class="flash flash-error">
+            <%= alert %>
+          </div>
+        <% end %>
+
+        <%= yield %>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© <%= Time.current.year %> TechForum</p>
+        <p>Built for developers &amp; tech enthusiasts</p>
+      </div>
+    </footer>
   </body>
 </html>

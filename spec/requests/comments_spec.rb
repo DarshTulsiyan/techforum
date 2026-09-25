@@ -13,6 +13,40 @@ RSpec.describe "Comments", type: :request do
   end
 
   describe "POST /posts/:post_id/comments" do
+
+        it "does not create a comment when the body is empty" do
+      expect {
+        post post_comments_path(post_record), params: {
+          comment: {
+            username: commenter.username,
+            body: ""
+          }
+        }
+      }.not_to change(Comment, :count)
+
+      expect(response).to redirect_to(post_path(post_record))
+    end
+
+    it "does not create a reply when the body is empty" do
+      parent = Comment.create!(
+        post: post_record,
+        user: author,
+        body: "Original comment"
+      )
+
+      expect {
+        post post_comments_path(post_record), params: {
+          comment: {
+            username: commenter.username,
+            body: "",
+            parent_id: parent.id
+          }
+        }
+      }.not_to change(Comment, :count)
+
+      expect(response).to redirect_to(post_path(post_record))
+    end
+
     it "creates a comment on a post" do
       expect {
         post post_comments_path(post_record), params: {

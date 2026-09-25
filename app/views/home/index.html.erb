@@ -1,0 +1,44 @@
+<div class="home-page">
+
+  <div class="home-intro">
+    <h1>Welcome to TechForum</h1>
+
+    <p>
+      A place to ask questions, share ideas, and discuss technology.
+    </p>
+
+    <%= link_to "Browse Discussions", posts_path, class: "button button-primary" %>
+  </div>
+
+  <div class="home-section">
+    <div class="section-heading">
+      <h2>Recent Discussions</h2>
+      <%= link_to "View All", posts_path %>
+    </div>
+
+    <% if @posts.any? %>
+      <div class="post-list">
+        <% @posts.each do |post| %>
+          <div class="post-card">
+            <span class="post-category"><%= post.category %></span>
+
+            <h3 class="post-title">
+              <%= link_to post.title, post %>
+            </h3>
+
+            <div class="post-meta">
+              <span><%= post.upvotes_count %> upvotes</span>
+              <span>·</span>
+              <span><%= post.tags.map(&:name).join(", ") %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <p>No discussions yet.</p>
+      </div>
+    <% end %>
+  </div>
+
+</div>
