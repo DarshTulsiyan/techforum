@@ -80,3 +80,90 @@ Reviewed the request flow from the upvote button to the controller and model.
 Discussed the difference between application-level validation and database constraints.
 
 Switched driver/navigator roles and reviewed the implementation together.
+
+Session 4 — Tags and Search/Browse
+
+Driver: Darsh Tulsiyan  
+Navigator: Bhagavatiraj Yadav
+
+Work completed:
+Implemented tags using Tag and PostTag.
+Displayed tags alongside posts.
+Added keyword-based post search.
+Added a search form and no-results message.
+
+Notes:
+Discussed many-to-many relationships.
+Reviewed ActiveRecord search queries.
+Tested empty searches and searches with no matches.
+Switched roles and reviewed the functionality.
+
+Session 5 — Post Editing and Deletion
+
+Driver: Darsh Tulsiyan  
+Navigator: Bhagavatiraj Yadav
+
+Work completed:
+Implemented post editing and updating.
+Added post deletion functionality.
+Added edit and delete controls.
+Added a confirmation dialog before deletion.
+Added validation for invalid updates.
+
+Notes:
+Reviewed Rails RESTful routes.
+Discussed reusing forms for creating and editing posts.
+Debugged Rails form-helper issues.
+Switched roles and tested the functionality.
+
+Session 6 — Related Posts
+
+Driver: Bhagavatiraj Yadav  
+Navigator: Darsh Tulsiyan
+
+Work completed:
+Implemented related posts using shared tags.
+Excluded the current post from recommendations.
+Displayed related posts on the individual post page.
+Added request tests for related-post functionality.
+
+Notes:
+Discussed using existing tag relationships.
+Reviewed ActiveRecord joins.
+Tested matching posts, unrelated posts, and no matches.
+Switched roles and reviewed the tests.
+
+Session 7 — Popular Posts
+
+Driver: Darsh Tulsiyan  
+Navigator: Bhagavatiraj Yadav
+
+Work completed:
+Implemented sorting posts by upvote count.
+Added Newest and Most Upvoted sorting options.
+Integrated sorting with search.
+Included posts with zero upvotes.
+
+Notes:
+Discussed calculating upvote counts using associated records.
+Debugged the missing upvotes_count database column error.
+Reviewed ActiveRecord joins and SQL aggregation.
+Switched roles and tested the sorting functionality.
+
+Session 8 — Testing and Final Integration
+
+Driver: Bhagavatiraj Yadav  
+Navigator: Darsh Tulsiyan
+
+Work completed:
+Added and reviewed RSpec model and request tests.
+Tested user and post management.
+Tested search and related posts.
+Reviewed validation and sad-path test cases.
+Integrated features and updated documentation.
+
+Notes:
+Discussed testing successful and unsuccessful operations.
+Reviewed request tests and HTTP responses.
+Used SimpleCov to review test coverage.
+Switched roles and reviewed the application together.

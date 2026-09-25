@@ -60,3 +60,58 @@ As a user, I want to reply to another user's comment so that I can respond direc
 * The reply is associated with the user who created it.
 * The reply is displayed under the comment it responds to.
 * If the parent comment does not exist, the reply should not be created.
+
+## 6. Search and Browse Posts
+
+**User Story:**
+As a user, I want to search and browse posts using keywords so that I can quickly find relevant technical discussions.
+
+**Acceptance Criteria:**
+
+* All posts are displayed when no search keyword is entered.
+* A user can search posts using keywords.
+* Search matches the post's title, body, or category.
+* Only matching posts are displayed after searching.
+* If no posts match the keyword, a message is displayed.
+* A user can clear the search to view all posts again.
+
+## 7. Post Editing and Deletion
+
+**User Story:**
+As a user, I want to edit or delete an existing post so that I can correct information or remove content that I don't want.
+
+**Acceptance Criteria:**
+* A user can edit an existing post's title, body, and category.
+* Valid changes are saved and displayed on the updated post.
+* An updated post must still contain a title and body.
+* Invalid updates should not be saved.
+* A user can delete an existing post.
+* A confirmation dialog is displayed before deletion.
+* After deletion, the user is redirected to the posts page.
+
+## 8. Organizing Posts with Tags
+
+**User Story:**
+As a user, I want to add tags to my posts so that other users can easily identify and discover discussions related to specific technical topics.
+
+**Acceptance Criteria:**
+* A user can enter tags while creating a post.
+* Tags are associated with the correct post.
+* Tags are displayed alongside the post.
+* Existing tags can be reused across multiple posts.
+* A user can search for posts using tag names.
+* A post can have multiple tags.
+
+## 9. Popular Posts
+
+**User Story:**
+As a user, I want to sort posts by their upvote count so that I can discover discussions that other users have found useful.
+
+**Acceptance Criteria:**
+* A user can select the "Most Upvoted" sorting option.
+* Posts are displayed in descending order of upvote count.
+* Posts with zero upvotes are still displayed.
+* Posts with equal upvote counts are ordered by creation date, with newer posts first.
+* A user can switch back to the default "Newest" sorting option.
+* Search and sorting can be used together.
+* The displayed upvote count matches the number of upvotes associated with each post.

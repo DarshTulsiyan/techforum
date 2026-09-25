@@ -22,7 +22,7 @@ As a user, I want to add tags to posts so that posts can be organized by topic.
 
 4. Search and Browse
 
-**Status: To Do**
+**Status: Done**
 
 As a user, I want to search for posts using keywords or tags so that I can find relevant technical discussions.
 
@@ -65,7 +65,7 @@ Add tests for important validation cases.
 
 8. Improved Testing
 
-**Status: To Do**
+**Status: Done**
 
 As a developer, I want better test coverage so that existing and new features continue to work correctly.
 
@@ -82,7 +82,7 @@ Review existing tests and improve coverage where needed.
 
 9. UI Improvements
 
-**Status: To Do**
+**Status: Done**
 
 As a user, I want a clear and easy-to-use interface so that I can browse posts and participate in discussions comfortably.
 
@@ -107,7 +107,7 @@ As a user, I want to see related posts based on shared tags so that I can discov
 
 11. Popular Posts
 
-**Status: To Do**
+**Status: Done**
 
 As a user, I want to see popular posts ranked by upvotes so that I can quickly find useful or highly-rated content.
 
