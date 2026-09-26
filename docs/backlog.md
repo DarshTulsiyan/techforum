@@ -48,7 +48,7 @@ As a user, I want to upvote posts that I find useful so that useful content can 
 
 7. Improved Validation
 
-**Status: To Do**
+**Status: Done**
 
 As a user, I want clear validation for my input so that invalid or incomplete data is not submitted.
 
@@ -101,7 +101,7 @@ Stretch Features
 
 10. Related Posts
 
-**Status: To Do**
+**Status: Done**
 
 As a user, I want to see related posts based on shared tags so that I can discover similar content.
 
